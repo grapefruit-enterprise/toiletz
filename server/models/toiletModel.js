@@ -42,6 +42,7 @@ Toilet.findToiletsInRadius = function(lat, long) {
 };
 
 Toilet.createToilet = function(attr) {
+  console.log('inside createToilet model', attr)
   return new Promise(function(resolve, reject) {
     return db('toiletz').insert(attr)
       .then(function(result) {

@@ -2,6 +2,8 @@ var Toilet = require('../models/toiletModel.js');
 var User = require('../models/userModel.js');
 var url = require('url');
 var axios = require('axios');
+var awsStream = require('../helpers/aws-streaming.js')
+// var busboy = require('connect-busboy')
 // var API_KEY = require('../../keys.js');
 
 module.exports = {
@@ -21,9 +23,17 @@ module.exports = {
           }
         });
     },
+
+
     post: function(req, res) {
       console.log("Received POST at /api/toilet/");
       console.log("creating toilet");
+      console.log('req busby', req.body);
+
+      //create function to handle file aws
+      //call aws-stream function
+
+      // awsStream.createS3Link(req.body.img)
 
       var newToilet = {
         name: req.body.name,
@@ -31,7 +41,8 @@ module.exports = {
         id_Users: req.body.id_Users,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        address: req.body.address
+        address: req.body.address,
+        img: req.body.img
       };
 
       Toilet.findToiletByLocation(newToilet.latitude, newToilet.longitude)
@@ -43,7 +54,7 @@ module.exports = {
 
             Toilet.createToilet(newToilet)
               .then(function(result) {
-                console.log("result", result);
+                console.log("result create toilet", result);
 
                 return res.send(result);
               });
