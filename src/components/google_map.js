@@ -5,7 +5,7 @@ import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import axios from 'axios';
 import { selectToiletFromMap } from '../actions/index.js';
 import { bindActionCreators } from 'redux';
-import API_KEY from '../../keys.js';
+// import API_KEY from '../../keys.js';
 
 import {connect} from 'react-redux';
 

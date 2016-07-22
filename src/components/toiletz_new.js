@@ -3,7 +3,6 @@ import { reduxForm } from 'redux-form';
 import { createToilet } from '../actions/index';
 import { Link } from 'react-router';
 import {bindAll} from 'lodash';
-import $ from 'jquery';
 
 
 class ToiletzNew extends Component {
@@ -14,6 +13,7 @@ class ToiletzNew extends Component {
 
 	onSubmit(props) {
 		const userId = localStorage.getItem('userId');
+		console.log('inside props', props)
 		this.props.createToilet(props,userId)
 			.then(() => {
 				// toilet post has been created, navigate the user to the index
@@ -24,7 +24,7 @@ class ToiletzNew extends Component {
 	}
 
 	render(){
-		const { fields:{name, description, address}, handleSubmit } = this.props
+		const { fields:{name, description, address, img}, handleSubmit } = this.props
 		// const handleSubmit = this.props.handleSubmit
 		//const title = this.props.fields.title
 
@@ -33,7 +33,7 @@ class ToiletzNew extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2">
-					<form onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="form-horizontal panel-form">
+					<form enctype="multipart/form-data" onSubmit={handleSubmit(this.onSubmit.bind(this))}  className="form-horizontal panel-form">
 
 						<div id="legend">
 							<legend className="">Create a new Toilet</legend>
@@ -55,6 +55,11 @@ class ToiletzNew extends Component {
 							</div>
 						</div>
 
+						<div className='form-group'>
+							<label> Image </label>
+							<input type="file" name="filefield" className='form-control' {...img} value={null}/>
+						</div>
+
 						<div className={`form-group ${address.touched && address.invalid ? 'has-danger' : '' }`}>
 							<label> Address </label>
 							<input type="text" className='form-control' {...address}/>
@@ -70,8 +75,6 @@ class ToiletzNew extends Component {
 								Cancel</span></Link>
 							</div>
 						</div>
-
-
 
 					</form>
 				</div>
@@ -100,28 +103,12 @@ function validate(values){
 		errors.address = 'Enter a valid address'
 	}
 
-
 	return errors;
 
 }
 
-//connect: 1st arg is mapStateToProps, 2nd is mapDispatchToProps
-// reduxForm: 1st arg is form, 2nd is mapStateToProps,3rd is mapDispatchToProps
-
 export default reduxForm({
 	form: 'ToiletzNewForm',
-	fields: ['name','description','address'],
+	fields: ['name','description','address', 'img'],
 	validate
 },null,{ createToilet })(ToiletzNew)
-
-//user types something in....record it on application state
-
-// state ==={
-// 	form:{
-// 		ToiletzNewForm:{
-// 			name:'.....',
-// 			description:'.....',
-// 			address:'.......'
-// 		}
-// 	}
-// }

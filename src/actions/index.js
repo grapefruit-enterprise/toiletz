@@ -145,14 +145,19 @@ export function getReviews (toiletId){
 
 
 export function createToilet(props,userId) {
+console.log('props inside action', props)
+
  	return convertAddress(props.address)
 		.then(function(payload) {
 
+
+
 			let params = {
-	            name:props.name,
-	            description:props.description,
-	            id_users: userId,
-	            latitude: payload.data.latitude,
+	        name:props.name,
+	        description:props.description,
+          img: props.img,
+	        id_users: userId,
+	        latitude: payload.data.latitude,
 			    longitude: payload.data.longitude,
 			    address: payload.data.address,
 			    token: localStorage.getItem('token')
